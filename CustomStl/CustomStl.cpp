@@ -1,15 +1,18 @@
 ﻿#include <iostream>
 #include "LinkedList.cpp"
 #include "DoublyLinkedList.cpp"
+#include "Unique_Pointer.cpp"
 
 void TestList();
 void TestDoublyLinkedList();
+void TestUniquePointer();
 
 int main()
 {
     std::cout << "Hello World!\n";
     TestList();
     TestDoublyLinkedList();
+    TestUniquePointer();
 }
 
 void TestList() {
@@ -111,4 +114,24 @@ void TestDoublyLinkedList() {
     dl.insert(it4, 1440);
     dl.print();
     std::cout << "=====================DoublyLinkedList====================" << std::endl << std::endl;
+}
+
+void TestUniquePointer() {
+    std::cout << "======================Unique Pointer=====================" << std::endl;
+    Unique_Pointer<int> p1(new int(5));
+
+    std::cout << (p1.get() == nullptr) << std::endl;
+
+    if (p1) {
+        std::cout << "p1 is valid and its value is: " << *p1 << std::endl;
+    }
+    else {
+        std::cout << "p1 is null" << std::endl;
+    }
+
+    p1.reset();
+
+    if (!p1) {
+        std::cout << "p1 is now null" << std::endl;
+    }
 }
