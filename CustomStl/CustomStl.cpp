@@ -2,10 +2,12 @@
 #include "LinkedList.cpp"
 #include "DoublyLinkedList.cpp"
 #include "Unique_Pointer.cpp"
+#include "Shared_Pointer.cpp"
 
 void TestList();
 void TestDoublyLinkedList();
 void TestUniquePointer();
+void TestSharedPointer();
 
 int main()
 {
@@ -13,6 +15,7 @@ int main()
     TestList();
     TestDoublyLinkedList();
     TestUniquePointer();
+    TestSharedPointer();
 }
 
 void TestList() {
@@ -134,4 +137,28 @@ void TestUniquePointer() {
     if (!p1) {
         std::cout << "p1 is now null" << std::endl;
     }
+}
+
+void TestSharedPointer() {
+    std::cout << "======================Shared Pointer=====================" << std::endl;
+    Shared_Pointer<int> s1(new int(10));
+    std::cout << *s1 << std::endl;
+    if (s1) {
+        std::cout << "s1 is valid :  " << *s1 << std::endl;
+    } else {
+        std::cout << "s1 is invalid" << std::endl;
+    }
+
+    Shared_Pointer<int> s2 = s1;
+    if (s2) {
+        std::cout << "s2 Valid" << std::endl;
+    } else {
+        std::cout << "s2 Invalid" << std::endl;
+    }
+
+    std::cout << s2.use_count() << std::endl;
+
+    std::cout << s1.use_count() << std::endl;
+    s2.reset();
+    std::cout << s1.use_count() << std::endl;
 }
