@@ -38,7 +38,7 @@
     <ClInclude Include="DoublyLinkedList.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="Unitue_Pointer.h">
+    <ClInclude Include="Unique_Pointer.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="Shared_Pointer.h">
