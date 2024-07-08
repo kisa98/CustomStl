@@ -3,11 +3,14 @@
 #include "DoublyLinkedList.cpp"
 #include "Unique_Pointer.cpp"
 #include "Shared_Pointer.cpp"
+#include "Weak_Pointer.cpp"
 
 void TestList();
 void TestDoublyLinkedList();
 void TestUniquePointer();
 void TestSharedPointer();
+void TestSTLWeakPointer();
+void TestWeakPointer();
 
 int main()
 {
@@ -16,6 +19,8 @@ int main()
     TestDoublyLinkedList();
     TestUniquePointer();
     TestSharedPointer();
+    TestSTLWeakPointer();
+    TestWeakPointer();
 }
 
 void TestList() {
@@ -161,4 +166,55 @@ void TestSharedPointer() {
     std::cout << s1.use_count() << std::endl;
     s2.reset();
     std::cout << s1.use_count() << std::endl;
+}
+
+void TestSTLWeakPointer() {
+    std::cout << "=====================Weak STL Pointer====================" << std::endl;
+    std::shared_ptr<int> s1(new int(10));
+    std::shared_ptr<int> s2(s1);
+    std::weak_ptr<int> wp(s1);
+    std::weak_ptr<int> wp2(wp);
+
+    std::cout << "wp expired: " << (wp.expired() ? "true" : "false") << std::endl;
+    std::cout << "wp locks: " << *wp.lock() << std::endl;
+    std::cout << "wp ref count: " << wp.use_count() << std::endl;
+
+    s1.reset();
+
+    std::cout << "wp count " << wp.use_count() << std::endl;
+    std::cout << "wp expired: " << (wp.expired() ? "true" : "false") << std::endl;
+    s2.reset();
+
+    std::cout << "wp count " << wp.use_count() << std::endl;
+
+}
+
+void TestWeakPointer() {
+    std::cout << "=======================Weak Pointer======================" << std::endl;
+    Shared_Pointer<int> s1(new int(10));
+
+    //std::cout << w1.use_count() << std::endl;//1
+
+    Shared_Pointer<int> s2(s1);
+    Weak_Pointer<int> w1(s2);
+
+    //std::cout << *s2 << std::endl;
+    //std::cout << s2.use_count() << std::endl;//1
+
+    //std::cout << s3.use_count() << std::endl;//2
+
+    //std::cout << "wp lock" << *w1.lock() << std::endl;
+    Shared_Pointer<int> s4;
+
+
+    std::cout << "w1 use count: " << w1.use_count() << std::endl;
+    std::cout << "s2 use count: " << s2.use_count() << std::endl;
+    s1.reset();
+    std::cout << "w1 use count: " << w1.use_count() << std::endl;
+    std::cout << "s2 use count: " << s2.use_count() << std::endl;
+    s2.reset();
+    std::cout << "w1 use count: " << w1.use_count() << std::endl;
+    std::cout << "s2 use count: " << s2.use_count() << std::endl;
+
+    std::cout << "wp lock" << *w1.lock() << std::endl;
 }

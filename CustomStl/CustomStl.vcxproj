@@ -144,12 +144,14 @@
     <ClCompile Include="LinkedList.cpp" />
     <ClCompile Include="Shared_Pointer.cpp" />
     <ClCompile Include="Unique_Pointer.cpp" />
+    <ClCompile Include="Weak_Pointer.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DoublyLinkedList.h" />
     <ClInclude Include="LinkedList.h" />
     <ClInclude Include="Shared_Pointer.h" />
     <ClInclude Include="Unique_Pointer.h" />
+    <ClInclude Include="Weak_Pointer.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
