@@ -26,4 +26,6 @@ private:
     T* m_ptr;
     long* m_refCount;
     long* m_weakCount;
+
+    void release();
 };

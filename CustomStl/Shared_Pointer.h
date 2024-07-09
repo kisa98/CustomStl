@@ -38,5 +38,5 @@ private:
     T* m_ptr;
     long* m_refCount;
 
-    void Release();
+    void release();
 };

@@ -173,19 +173,20 @@ void TestSTLWeakPointer() {
     std::shared_ptr<int> s1(new int(10));
     std::shared_ptr<int> s2(s1);
     std::weak_ptr<int> wp(s1);
+    std::cout << "wp ref count: " << wp.use_count() << std::endl;
     std::weak_ptr<int> wp2(wp);
+
 
     std::cout << "wp expired: " << (wp.expired() ? "true" : "false") << std::endl;
     std::cout << "wp locks: " << *wp.lock() << std::endl;
-    std::cout << "wp ref count: " << wp.use_count() << std::endl;
 
     s1.reset();
-
-    std::cout << "wp count " << wp.use_count() << std::endl;
-    std::cout << "wp expired: " << (wp.expired() ? "true" : "false") << std::endl;
+    std::cout << "s1 ref count: " << s1.use_count() << std::endl;
+    std::cout << "wp ref count: " << wp.use_count() << std::endl;
+    
     s2.reset();
-
-    std::cout << "wp count " << wp.use_count() << std::endl;
+    std::weak_ptr<int> wp3(wp);
+    std::cout << "wp ref count: " << wp.use_count() << std::endl;
 
 }
 
@@ -198,12 +199,11 @@ void TestWeakPointer() {
     Shared_Pointer<int> s2(s1);
     Weak_Pointer<int> w1(s2);
 
-    //std::cout << *s2 << std::endl;
-    //std::cout << s2.use_count() << std::endl;//1
+    std::cout << *s2 << std::endl;
+    std::cout << s2.use_count() << std::endl;//1
 
-    //std::cout << s3.use_count() << std::endl;//2
 
-    //std::cout << "wp lock" << *w1.lock() << std::endl;
+    std::cout << "wp lock" << *w1.lock() << std::endl;
     Shared_Pointer<int> s4;
 
 
@@ -212,9 +212,6 @@ void TestWeakPointer() {
     s1.reset();
     std::cout << "w1 use count: " << w1.use_count() << std::endl;
     std::cout << "s2 use count: " << s2.use_count() << std::endl;
-    s2.reset();
-    std::cout << "w1 use count: " << w1.use_count() << std::endl;
-    std::cout << "s2 use count: " << s2.use_count() << std::endl;
+    std::cout << "wp lock " << *w1.lock() << std::endl;
 
-    std::cout << "wp lock" << *w1.lock() << std::endl;
 }

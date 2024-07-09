@@ -21,14 +21,22 @@ Weak_Pointer<T>::Weak_Pointer(Weak_Pointer&& wp) noexcept : m_ptr(wp.m_ptr), m_r
 }
 
 template <typename T>
-Weak_Pointer<T>::Weak_Pointer(const Shared_Pointer<T>& sp) noexcept : m_ptr(sp.m_ptr), m_refCount(sp.m_refCount), m_weakCount(new long(1)) {
-	std::cout << "Shared Pointer »ý¼ºÀÚ " << std::endl;
+Weak_Pointer<T>::Weak_Pointer(const Shared_Pointer<T>& sp) noexcept : m_ptr(sp.m_ptr), m_refCount(sp.m_refCount), m_weakCount(sp.m_weakCount) {
+	if (m_weakCount != nullptr) {
+		++(*m_weakCount);
+	}
 }
 
 
 template <typename T>
 Weak_Pointer<T>::~Weak_Pointer() {
-	reset();
+	release();
+	if (m_weakCount != nullptr && *m_weakCount == 0) {
+		delete m_weakCount;
+	}
+	m_weakCount = nullptr;
+	m_ptr = nullptr;
+	m_refCount = nullptr;
 }
 
 template <typename T>
@@ -46,20 +54,18 @@ typename Shared_Pointer<T> Weak_Pointer<T>::lock() const noexcept  {
 
 template <typename T>
 void Weak_Pointer<T>::reset() noexcept {
-	if (m_weakCount != nullptr) {
-		if (--(*m_weakCount) == 0) {
-			delete m_weakCount;
-		}
-		m_weakCount = nullptr;
+	release();
+	if (m_weakCount != nullptr && *m_weakCount == 0) {
+		delete m_weakCount;
 	}
+	m_weakCount = nullptr;
 	m_ptr = nullptr;
 	m_refCount = nullptr;
 }
 
 template <typename T>
 long Weak_Pointer<T>::use_count() const noexcept {
-	std::cout << "m_refCount is " << (m_refCount == nullptr ? "Null" : "Not Null") << std::endl;
-	return m_refCount != nullptr ? *m_refCount : 0;
+	return (m_refCount != nullptr) ? *m_refCount : 0;
 }
 
 template <typename T>
@@ -77,5 +83,13 @@ typename Weak_Pointer<T>& Weak_Pointer<T>::operator=(const Shared_Pointer<T>& sp
 	reset();
 	m_ptr = sp.m_ptr;
 	m_refCount = sp.m_refCount;
-	m_weakCount = new long(1);
+	m_weakCount = sp.m_weakCount;
+	++(*m_weakCount);
+}
+
+template <typename T>
+void Weak_Pointer<T>::release() {
+	if (m_weakCount != nullptr) {
+		*(--m_weakCount);
+	}
 }
