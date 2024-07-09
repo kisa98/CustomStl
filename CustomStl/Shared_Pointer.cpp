@@ -42,6 +42,8 @@ typename Shared_Pointer<T>::Shared_Pointer& Shared_Pointer<T>::operator=(const S
 }
 
 
+//RValue 참조자: 1. 원본을 그대로 사용, 2. 복사 하지 않음(시간/공간적 이득), 3. 재사용 가능
+//원본을 삭제하고 옮기는 이동 할당 연산자
 template <typename T>
 typename Shared_Pointer<T>::Shared_Pointer& Shared_Pointer<T>::operator=(Shared_Pointer&& ptr) noexcept {
 	if (this != &ptr) {
@@ -54,6 +56,7 @@ typename Shared_Pointer<T>::Shared_Pointer& Shared_Pointer<T>::operator=(Shared_
 	return *this;
 }
 
+//시스템에 의해 자원 해제. 참조 포인터 수가 0이면 자원을 해제한다.
 template <typename T>
 Shared_Pointer<T>::~Shared_Pointer() {
 	release();
@@ -68,6 +71,7 @@ Shared_Pointer<T>::~Shared_Pointer() {
 	m_refCount = nullptr;
 }
 
+//명시적으로 자원을 해제. 참조 포인터 수가 0이되면 자원을 해제한다.
 template <typename T>
 void Shared_Pointer<T>::reset() noexcept {
 	release();
