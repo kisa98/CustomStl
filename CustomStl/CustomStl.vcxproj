@@ -141,14 +141,18 @@
   <ItemGroup>
     <ClCompile Include="CustomStl.cpp" />
     <ClCompile Include="DoublyLinkedList.cpp" />
+    <ClCompile Include="Heap.cpp" />
     <ClCompile Include="LinkedList.cpp" />
+    <ClCompile Include="Node.cpp" />
     <ClCompile Include="Shared_Pointer.cpp" />
     <ClCompile Include="Unique_Pointer.cpp" />
     <ClCompile Include="Weak_Pointer.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DoublyLinkedList.h" />
+    <ClInclude Include="Heap.h" />
     <ClInclude Include="LinkedList.h" />
+    <ClInclude Include="Node.h" />
     <ClInclude Include="Shared_Pointer.h" />
     <ClInclude Include="Unique_Pointer.h" />
     <ClInclude Include="Weak_Pointer.h" />

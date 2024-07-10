@@ -21,7 +21,7 @@ Weak_Pointer<T>::Weak_Pointer(Weak_Pointer&& wp) noexcept : m_ptr(wp.m_ptr), m_r
 }
 
 template <typename T>
-Weak_Pointer<T>::Weak_Pointer(const Shared_Pointer<T>& sp) noexcept : m_ptr(sp.m_ptr), m_refCount(sp.m_refCount), m_weakCount(sp.m_weakCount) {
+Weak_Pointer<T>::Weak_Pointer(const Shared_Pointer<T>& sp) noexcept : m_ptr(sp.m_ptr), m_refCount(sp.m_refCount) {
 	if (m_weakCount != nullptr) {
 		++(*m_weakCount);
 	}
@@ -90,6 +90,6 @@ typename Weak_Pointer<T>& Weak_Pointer<T>::operator=(const Shared_Pointer<T>& sp
 template <typename T>
 void Weak_Pointer<T>::release() {
 	if (m_weakCount != nullptr) {
-		*(--m_weakCount);
+		--(*m_weakCount);
 	}
 }

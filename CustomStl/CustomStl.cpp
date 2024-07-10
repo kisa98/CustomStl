@@ -4,6 +4,8 @@
 #include "Unique_Pointer.cpp"
 #include "Shared_Pointer.cpp"
 #include "Weak_Pointer.cpp"
+#include "Node.cpp"
+#include "Heap.cpp"
 
 void TestList();
 void TestDoublyLinkedList();
@@ -11,6 +13,8 @@ void TestUniquePointer();
 void TestSharedPointer();
 void TestSTLWeakPointer();
 void TestWeakPointer();
+void TestNode();
+void TestHeap();
 
 int main()
 {
@@ -21,6 +25,8 @@ int main()
     TestSharedPointer();
     TestSTLWeakPointer();
     TestWeakPointer();
+    TestNode();
+    TestHeap();
 }
 
 void TestList() {
@@ -214,4 +220,76 @@ void TestWeakPointer() {
     std::cout << "s2 use count: " << s2.use_count() << std::endl;
     std::cout << "wp lock " << *w1.lock() << std::endl;
 
+}
+
+void TestNode() {
+    std::cout << "========================== Node ========================" << std::endl;
+    Node<int>* node0 = new Node<int>(10);
+    Node<int>* node1 = new Node<int>(11);
+    Node<int>* node2 = new Node<int>(12);
+    Node<int>* node3 = new Node<int>(13);
+    std::cout << node0->data << std::endl;
+
+    node0->addChild(node1);
+    node0->addChild(node2);
+    node0->addChild(node3);
+
+    node0->showChildren();
+
+    node0 = node3;
+    node0->showChildren();
+    std::cout << node0->data << std::endl;
+}
+
+void TestHeap() {
+    std::cout << "========================== Heap ========================" << std::endl;
+    MaxHeap<int> heap;
+    heap.push(1);
+    heap.push(2);
+    heap.push(3);
+    heap.push(4);
+    heap.push(5);
+    heap.push(6);
+    heap.push(7);
+    heap.push(8);
+    heap.push(9);
+    heap.push(10);
+    heap.push(11);
+    heap.push(12);
+    heap.push(13);
+    heap.push(14);
+    heap.push(15);
+    heap.print(); //15 10 14 7 9 11 13 1 4 3 8 2 6 5 12 정답
+    std::cout << "Capacity is: " << heap.getCapacity() << ", size is now: " << heap.getSize() << std::endl;
+
+
+    /*
+    함수 평가 순서에 따라 다음 함수들은 다른 값을 나타낸다. 위는 7 7, 아래는 7 6.
+    std::cout << "Max Value is: " << heap.pop() << ", size is now: " << heap.getSize() << std::endl;
+
+    컴파일러에 따라 cout내의 함수 평가 순서가 달라질 수 있으므로, 평가하려는 코드를 분할할 것.
+
+    std::cout << "Max Value is: " << heap.pop() << std::endl;
+    std::cout << "Size is now : " << heap.getSize() << std::endl;
+
+    */
+
+    try {
+        std::cout << "Max Value is: " << heap.pop() << ", size is now: " << heap.getSize() << std::endl;
+        std::cout << "Max Value is: " << heap.pop() << ", size is now: " << heap.getSize() << std::endl;
+        std::cout << "Max Value is: " << heap.pop() << ", size is now: " << heap.getSize() << std::endl;
+        std::cout << "Max Value is: " << heap.pop() << ", size is now: " << heap.getSize() << std::endl;
+        std::cout << "Max Value is: " << heap.pop() << ", size is now: " << heap.getSize() << std::endl;
+        std::cout << "Max Value is: " << heap.pop() << ", size is now: " << heap.getSize() << std::endl;
+        std::cout << "Max Value is: " << heap.pop() << ", size is now: " << heap.getSize() << std::endl;
+        std::cout << "Max Value is: " << heap.pop() << ", size is now: " << heap.getSize() << std::endl;
+        std::cout << "Max Value is: " << heap.pop() << ", size is now: " << heap.getSize() << std::endl;
+        std::cout << "Max Value is: " << heap.pop() << ", size is now: " << heap.getSize() << std::endl;
+        std::cout << "Max Value is: " << heap.pop() << ", size is now: " << heap.getSize() << std::endl;
+    }
+    catch (const std::out_of_range e) {
+        std::cerr << "Exception: " << e.what() << std::endl;
+    }
+    //std::cout << "Size is now : " << heap.getSize() << std::endl;
+    std::cout << "capacity: " << heap.getCapacity() << std::endl;
 }
