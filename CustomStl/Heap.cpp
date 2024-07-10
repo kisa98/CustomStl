@@ -127,6 +127,11 @@ void MaxHeap<T>::resize() {
 	this->capacity = size;
 
 	T* newHeap = new T[size];
+
+
+	//buffer overflow : 적정 메모리를 초과하는 값을 쓰려하면 발생
+	//buffer overrun : 적정 메모리를 초과하는 값을 읽으려하면 발생
+	//Bueffer Overrun으로 인해, memcpy로 수정
 	std::memcpy(newHeap, heap, this->size * sizeof(T));
 	delete[] heap;
 	heap = newHeap;
