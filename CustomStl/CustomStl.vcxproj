@@ -144,6 +144,7 @@
     <ClCompile Include="Heap.cpp" />
     <ClCompile Include="LinkedList.cpp" />
     <ClCompile Include="Node.cpp" />
+    <ClCompile Include="RoundRobin.cpp" />
     <ClCompile Include="Shared_Pointer.cpp" />
     <ClCompile Include="Unique_Pointer.cpp" />
     <ClCompile Include="Weak_Pointer.cpp" />

@@ -1,4 +1,5 @@
 ﻿#include <iostream>
+#include <thread>
 #include "LinkedList.cpp"
 #include "DoublyLinkedList.cpp"
 #include "Unique_Pointer.cpp"
@@ -6,6 +7,7 @@
 #include "Weak_Pointer.cpp"
 #include "Node.cpp"
 #include "Heap.cpp"
+#include "RoundRobin.cpp"
 
 void TestList();
 void TestDoublyLinkedList();
@@ -15,6 +17,9 @@ void TestSTLWeakPointer();
 void TestWeakPointer();
 void TestNode();
 void TestHeap();
+void threadFunction(int);
+void TestRoundRobin(Scheduler* scheduler);
+
 
 int main()
 {
@@ -27,6 +32,27 @@ int main()
     TestWeakPointer();
     TestNode();
     TestHeap();
+
+    // 스레드 생성
+    std::thread t1(threadFunction, 1);
+    std::thread t2(threadFunction, 2);
+
+    // 메인 스레드에서 추가 작업
+    for (int i = 0; i < 5; ++i) {
+        std::cout << "Main thread is running" << std::endl;
+        std::this_thread::sleep_for(std::chrono::milliseconds(100));
+    }
+
+    // 스레드가 종료될 때까지 대기
+    t1.join();
+    t2.join();
+
+    std::cout << "All threads have finished." << std::endl;
+
+    Scheduler* scheduler = new Scheduler();
+    TestRoundRobin(scheduler);
+
+    return 0;
 }
 
 void TestList() {
@@ -292,4 +318,40 @@ void TestHeap() {
     }
     //std::cout << "Size is now : " << heap.getSize() << std::endl;
     std::cout << "capacity: " << heap.getCapacity() << std::endl;
+    
+    std::cout << "======================== Heap End ======================" << std::endl;
+}
+
+void threadFunction(int threadNumber) {
+    for (int i = 0; i < 5; ++i) {
+        std::cout << threadNumber << " is running" << std::endl;
+        std::this_thread::sleep_for(std::chrono::milliseconds(100));
+    }
+}
+void rrThreadFunction(int id, Scheduler* scheduler) {
+    while (!scheduler->empty()) {
+        scheduler->processJob();
+        std::this_thread::sleep_for(std::chrono::milliseconds(100));
+    }
+}
+
+void TestRoundRobin(Scheduler* scheduler) {
+    Job* a = new Job(0, 15);
+    Job* b = new Job(1, 20);
+    Job* c = new Job(2, 17);
+    Job* d = new Job(3, 12);
+    Job* e = new Job(4, 14);
+    Job* f = new Job(5, 22);
+    Job* g = new Job(6, 21);
+    scheduler->addJob(a);
+    scheduler->addJob(b);
+    scheduler->addJob(c);
+    scheduler->addJob(d);
+    scheduler->addJob(e);
+    scheduler->addJob(f);
+    scheduler->addJob(g);
+
+    std::thread processor(rrThreadFunction, 0, scheduler);
+
+    processor.join();
 }
