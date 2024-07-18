@@ -11,6 +11,10 @@ struct Job {
 		progress = 0;
 	}
 
+	~Job() {
+		std::cout << "Job Destoryed" << std::endl;
+	}
+
 	void doJob() {
 		++progress;
 		std::cout << "Job " << job_Id << " : " << progress << " / " << total_work << "%" << std::endl;
@@ -18,7 +22,7 @@ struct Job {
 
 	bool jobCompleted() {
 		if (progress == total_work) {
-			std::cout << "Job Completed";
+			std::cout << "Job Completed" << std::endl;
 			return true;
 		}
 		else {

@@ -336,20 +336,20 @@ void rrThreadFunction(int id, Scheduler* scheduler) {
 }
 
 void TestRoundRobin(Scheduler* scheduler) {
-    Job* a = new Job(0, 15);
-    Job* b = new Job(1, 20);
-    Job* c = new Job(2, 17);
-    Job* d = new Job(3, 12);
-    Job* e = new Job(4, 14);
-    Job* f = new Job(5, 22);
-    Job* g = new Job(6, 21);
-    scheduler->addJob(a);
-    scheduler->addJob(b);
-    scheduler->addJob(c);
-    scheduler->addJob(d);
-    scheduler->addJob(e);
-    scheduler->addJob(f);
-    scheduler->addJob(g);
+    Unique_Pointer<Job> a(new Job(0, 15));
+    Unique_Pointer<Job> b(new Job(1, 20));
+    Unique_Pointer<Job> c(new Job(2, 17));
+    Unique_Pointer<Job> d(new Job(3, 12));
+    Unique_Pointer<Job> e(new Job(4, 14));
+    Unique_Pointer<Job> f(new Job(5, 22));
+    Unique_Pointer<Job> g(new Job(6, 21));
+    scheduler->addJob(a.get());
+    scheduler->addJob(b.get());
+    scheduler->addJob(c.get());
+    scheduler->addJob(d.get());
+    scheduler->addJob(e.get());
+    scheduler->addJob(f.get());
+    scheduler->addJob(g.get());
 
     std::thread processor(rrThreadFunction, 0, scheduler);
 
